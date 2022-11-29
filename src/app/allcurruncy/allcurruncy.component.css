@@ -1,0 +1,23 @@
+.page-wrapper .page-content {
+  display: inline-block;
+  width: 100%;
+  padding-left: 0px;
+  padding-top: 20px;
+}
+.page-content {
+  padding-left: 310px;
+}
+.page-wrapper .page-content > div {
+  padding: 20px 1px;
+}
+
+.page-wrapper .page-content {
+  overflow-x: hidden;
+}
+.crypto-card-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0;
+}
