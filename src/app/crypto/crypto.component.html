@@ -1,26 +1,138 @@
 <div class="page-content">
-  <div class="row">
-    <h2 class="mt-5">Bitcoin Price</h2>
-    <hr>
-    <!-- <div style="width: 600px;height: 600px;">
-      <canvas id="myChart"></canvas>
-    </div> -->
-    <div class="chart-diplay">
-      <div style="width: 100%">
-        <canvas id="bar"></canvas>
-      </div>
+  <div *ngIf="!isLoading">
+    <div *ngFor="let coin of coinData">
+      <h2 class="mt-5">{{ coin.name }} ({{coin.symbol}}) Price</h2>
 
-      <div style="width: 100%">
-        <canvas id="bubble"></canvas>
+      <select name="time_period" id="time_period" class="p-2" (change)="getValue($event.target.value)">
+        <!-- <option class="p-2" value="volvo" *ngFor="let time_period of time_periods">{{time_period}}</option>w -->
+        <option class="p-2" value="3h">3h</option>
+        <option class="p-2" value="24h">24h</option>
+        <option class="p-2" value="7d" selected>7d</option>
+        <option class="p-2" value="30d">30d</option>
+        <option class="p-2" value="3m">3m</option>
+        <option class="p-2" value="1y">1y</option>
+        <option class="p-2" value="3y">3y</option>
+        <option class="p-2" value="5y">5y</option>
+      </select>
+      <div class="container">
+        <div class="row">
+          <h2 class="d-inline-block">{{ coin.name }} Price Chart</h2>
+          <div class="ms-auto row">
+            <span class="fw-bolder">Change: {{ coin.change }}%</span>
+            <span class="fw-bolder">Current Bitcoin Price: {{ coin.price | numberSuffix }}</span>
+          </div>
+        </div>
       </div>
-
-      <div style="width: 100%">
-        <canvas id="doughnut"></canvas>
+      <div class="chart-wrapper">
+        <canvas id="MyChart"></canvas>
       </div>
-
-      <!-- <div style="width: 100%">
-        <canvas id="pie"></canvas>
-      </div> -->
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-6">
+            <h2>{{ coin.name }} Value Statistics</h2>
+            <span>An overview showing the statistics of {{coin.name}}, such as the base and quote currency, the rank,
+              and
+              trading
+              volume.</span>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="me-2" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4 14.083c0-2.145-2.232-2.742-3.943-3.546-1.039-.54-.908-1.829.581-1.916.826-.05 1.675.195 2.443.465l.362-1.647c-.907-.276-1.719-.402-2.443-.421v-1.018h-1v1.067c-1.945.267-2.984 1.487-2.984 2.85 0 2.438 2.847 2.81 3.778 3.243 1.27.568 1.035 1.75-.114 2.011-.997.226-2.269-.168-3.225-.54l-.455 1.644c.894.462 1.965.708 3 .727v.998h1v-1.053c1.657-.232 3.002-1.146 3-2.864z" />
+                  </svg>Price to USD
+                </div>
+                <span>{{coin.price | numberSuffix}}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fas fa-hashtag me-2"></i>Rank
+                </div>
+                <span>{{coin.rank}}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa fa-bolt me-2"></i>24h Volume
+                </div>
+                <span>{{coin['24hVolume']}}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="me-2" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4 14.083c0-2.145-2.232-2.742-3.943-3.546-1.039-.54-.908-1.829.581-1.916.826-.05 1.675.195 2.443.465l.362-1.647c-.907-.276-1.719-.402-2.443-.421v-1.018h-1v1.067c-1.945.267-2.984 1.487-2.984 2.85 0 2.438 2.847 2.81 3.778 3.243 1.27.568 1.035 1.75-.114 2.011-.997.226-2.269-.168-3.225-.54l-.455 1.644c.894.462 1.965.708 3 .727v.998h1v-1.053c1.657-.232 3.002-1.146 3-2.864z" />
+                  </svg>Market Cap
+                </div>
+                <span>{{coin.marketCap | numberSuffix}}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa fa-trophy me-2"></i>All-time-high(daily avg.)
+                </div>
+                <span>{{coin.allTimeHigh.price | numberSuffix}}</span>
+              </li>
+            </ul>
+            <div>
+              <h2 class="h1">What Is {{coin.name}}?</h2>
+              <div [innerHTML]="coin.description"></div>
+            </div>
+          </div>
+          <div class="col-6">
+            <h2>Other Stats Info</h2>
+            <span>An overview showing the statistics of {{ coin.name }}, such as the base and quote currency, the rank,
+              and
+              trading
+              volume.</span>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa fa-line-chart me-2"></i>Number Of Markets
+                </div>
+                <span>{{ coin.numberOfMarkets }}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa fa-exchange me-2"></i>Number Of Exchanges
+                </div>
+                <span>{{ coin.numberOfExchanges }}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa-solid fa-circle-info me-2"></i>Aprroved Supply
+                </div>
+                <span *ngIf="coin.supply.confirmed == true"><i class="fa fa-check" aria-hidden="true"></i></span>
+                <span *ngIf="coin.supply.confirmed == false"><i class="fa fa-cross" aria-hidden="true"></i></span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa-solid fa-circle-info me-2"></i>Total Supply
+                </div>
+                <span>{{coin.supply.total | numberSuffix}}</span>
+              </li>
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
+                <div class="me-auto">
+                  <i class="fa-solid fa-circle-info me-2"></i>Circulating Supply
+                </div>
+                <span>{{ coin.supply.circulating | numberSuffix}}</span>
+              </li>
+            </ul>
+            <h2>{{ coin.name }} Links</h2>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item list-group-item-action d-flex align-items-center py-4"
+                *ngFor="let link of coin.links">
+                <div class="me-auto">
+                  {{link.type}}
+                </div>
+                <a [href]="link.url" class="text-decoration-none">{{ link.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+
+  </div>
+  <div class="contain" *ngIf="isLoading">
+    <img src="http://a.top4top.net/p_1990j031.gif" alt="Loading">
   </div>
 </div>

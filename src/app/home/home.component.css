@@ -5,7 +5,7 @@
   padding-top: 20px;
 }
 .page-content {
-  padding-left: 310px;
+  /* padding-left: 310px; */
 }
 .page-wrapper .page-content > div {
   padding: 20px 1px;
@@ -14,7 +14,9 @@
 .page-wrapper .page-content {
   overflow-x: hidden;
 }
-
+.padding-0 {
+  padding-left: 0;
+}
 /*------scroll bar---------------------*/
 
 ::-webkit-scrollbar {
@@ -170,4 +172,27 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+.contain {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+.contain img {
+  transform: translatex(0);
+  animation: walk 5s linear infinite alternate;
+}
+
+.card {
+  min-width: 240px;
+}
+@keyframes walk {
+  0% {
+    transform: translateX(400%);
+  }
+  100% {
+    transform: translateX(-300%);
+  }
 }

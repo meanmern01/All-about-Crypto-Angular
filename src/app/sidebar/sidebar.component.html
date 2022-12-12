@@ -1,15 +1,18 @@
-<div class="page-wrapper chiller-theme toggled">
-  <nav id="sidebar" class="sidebar-wrapper">
+<div class="page-wrapper chiller-theme" [ngClass]="isOpend === true ? 'toggled' : ''">
+  <nav id=" sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
       <div class="sidebar-header">
         <div class="user-pic">
-          <img class="img-responsive img-rounded" src="../assets/img/logo.png"
-            alt="User picture">
+          <img class="img-responsive img-rounded" src="../assets/img/logo.png" alt="User picture">
         </div>
         <div class="user-info align-items-center">
           <h2 class="heading text-light fw-bolder">Cryptoverse</h2>
         </div>
+        <div class="toogle ms-5 d-inline-block">
+          <a (click)="change()"><i class="fa-solid fa-bars"></i></a>
+        </div>
       </div>
+
       <!------------------------------------------------------------------------------------------------ sidebar-header  ----------------------------------------------------------------------------------------------------------------->
 
       <!-- sidebar-search  -->
@@ -45,4 +48,7 @@
       <!-- sidebar-menu  -->
     </div>
   </nav>
+</div>
+<div *ngIf="!isOpend" class="toogle ms-5 d-inline-block">
+  <button (click)="change()"><i class="fa-solid fa-bars"></i></button>
 </div>

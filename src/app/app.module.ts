@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { AllcurruncyComponent } from './allcurruncy/allcurruncy.component';
 import { NewsComponent } from './news/news.component';
 import { CryptoComponent } from './crypto/crypto.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,13 +20,13 @@ import { CryptoComponent } from './crypto/crypto.component';
     SidebarComponent,
     HomeComponent,
     AllcurruncyComponent,
-    NewsComponent,
     CryptoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgChartsModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

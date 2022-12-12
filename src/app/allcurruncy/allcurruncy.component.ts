@@ -9,15 +9,20 @@ import { Router } from '@angular/router';
 })
 export class AllcurruncyComponent implements OnInit {
   crypto: any;
+  isLoading: boolean;
   constructor(private data: DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAllCrypto()
   }
   getAllCrypto() {
-    this.data.getCryptoStates().subscribe((crypto: any) => {
-      this.crypto = crypto.data.coins;
-    })
+    this.isLoading = true;
+    setTimeout(() => {
+      this.data.getCryptoStates().subscribe((crypto: any) => {
+        this.crypto = crypto.data.coins;
+      })
+      this.isLoading = false;
+    }, 5000)
   }
   detailCurruncy(id: any) {
     console.log(id);

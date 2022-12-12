@@ -1,3 +1,24 @@
 <div class="page-content">
-  <h1>Hello This IS News Component</h1>
+  <select name="" id="browsers" class="mt-4" (change)="search($event.target.value)">
+    <option value="{{search}}" *ngFor="let search of searchData">{{search}}</option>
+  </select>
+  <div class="container mt-4">
+    <div class="row justify-content-between">
+      <a href="{{news.url}}" target="_blank" routerLinkActive="router-link-active"
+        class="card text-decoration-none text-dark mb-4 flex-wrap me-1 align-items-center flex-row col-sm-12 col-3"
+        *ngFor="let news of newsData">
+        <h4 class="col-8">{{news?.name}}
+        </h4>
+        <img src="{{news.image?.thumbnail?.contentUrl}}" class="rounded-2" width="100" height="100"
+          alt="Image Not Available">
+        <p class="news-description">{{news.description}}</p>
+        <div class="col-9">
+          <img src="{{news.provider[0].image?.thumbnail?.contentUrl}}" class="rounded-circle" width="30" height="30"
+            alt="">
+          <span>{{news?.provider[0]?.name}}</span>
+        </div>
+        <span>{{news?.datePublished | date}}</span>
+      </a>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 <app-sidebar></app-sidebar>
 <div class="page-content">
-  <div class="container">
+  <div class="container" *ngIf="!isLoading">
     <div role="row" class="row align-items-center" style="margin-left: -28px; margin-right: -16px ;row-gap: 32px;">
       <button (click)="detailCurruncy(coin.uuid)" class="card mt-5 shadow crypto-card border-0"
         style="width:268px; margin-left: 30px; padding-left: 0; padding-right: 0;" *ngFor="let coin of crypto">
@@ -15,5 +15,9 @@
         </div>
       </button>
     </div>
+  </div>
+  <div class="contain" *ngIf="isLoading">
+    <!-- <img src="assets/img/loading.gif" alt="Loading"> -->
+    <img src="http://a.top4top.net/p_1990j031.gif" alt="Loading">
   </div>
 </div>

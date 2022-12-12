@@ -21,3 +21,22 @@
   justify-content: space-between;
   border-radius: 0;
 }
+.contain {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+.contain img {
+  transform: translatex(0);
+  animation: walk 5s linear infinite alternate;
+}
+@keyframes walk {
+  0% {
+    transform: translateX(400%);
+  }
+  100% {
+    transform: translateX(-300%);
+  }
+}

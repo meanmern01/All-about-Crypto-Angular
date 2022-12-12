@@ -1,213 +1,81 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart, registerables } from 'chart.js'
-Chart.register(...registerables)
+import { ActivatedRoute } from '@angular/router';
+import { ChartDataset, ChartOptions, Chart } from 'chart.js';
+import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-crypto',
   templateUrl: './crypto.component.html',
   styleUrls: ['./crypto.component.css']
 })
 export class CryptoComponent implements OnInit {
-  chart;
-  chart2 = [];
-  pie: any;
-  doughnut: any;
-
-  data1 = [];
-
+  chart: any;
+  param: any;
+  fData: any[];
+  time_Per: string;
+  coinData: any[] = [];
+  isLoading: boolean = false;
+  constructor(private data: DataService, private route: ActivatedRoute) { }
   ngOnInit() {
-    this.chart = new Chart('bar', {
-      type: 'bar',
-      options: {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Combo Bar and line Chart'
-        },
-      },
-      data: {
-        labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+    this.isLoading = true
+    setTimeout(() => {
+      this.getValue('7d')
+      this.isLoading = false
+
+    }, 4990)
+  }
+  getValue(val?: any) {
+    console.log("value", val);
+    this.getCryptoData(val)
+  }
+  getCryptoData(time_Per: any) {
+    this.param = this.route.snapshot.paramMap.get('id')
+    this.data.getCoinHistory(this.param, time_Per).subscribe((data: any) => {
+      console.log("param: ", data.data);
+      const coinPrice = [];
+      const coinTimestamp = [];
+
+      for (let i = 0; i < data?.data?.history?.length; i += 1) {
+        coinPrice.push(data?.data?.history[i].price);
+      }
+
+      for (let i = 0; i < data?.data?.history?.length; i += 1) {
+        coinTimestamp.push(
+          new Date(data?.data?.history[i].timestamp).toLocaleDateString()
+        );
+      }
+      setTimeout(() => {
+        this.showChart(coinTimestamp, coinPrice)
+      }, 1000)
+    })
+    this.getCoin()
+  }
+  showChart(coinTimestamp: any[], coinPrice: any[]) {
+    const canvas = <HTMLCanvasElement>document.getElementById('MyChart');
+    const ctx = canvas.getContext('2d');
+    this.chart = new Chart(ctx, {
+      type: 'line', //this denotes tha type of chart
+      data: {// values on X-Axis
+        labels: coinTimestamp,
         datasets: [
           {
-            type: 'bar',
-            label: 'My First dataset',
-            data: [243, 156, 365, 30, 156, 265, 356, 543],
-            backgroundColor: 'rgba(255,0,255,0.4)',
-            borderColor: 'rgba(255,0,255,0.4)',
+            label: "Price In USD",
+            data: coinPrice,
             fill: false,
-          },
-          // {
-          //   type: 'line',
-          //   label: 'Dataset 2',
-          //   backgroundColor: 'rgba(0,0,255,0.4)',
-          //   borderColor: 'rgba(0,0,255,0.4)',
-          //   data: [
-          //     443, 256, 165, 100, 56, 65, 35, 543
-          //   ],
-          //   fill: true,
-          // },
-          {
-            type: 'bar',
-            label: 'My Second dataset',
-            data: [243, 156, 365, 30, 156, 265, 356, 543].reverse(),
-            backgroundColor: 'rgba(0,0,255,0.4)',
-            borderColor: 'rgba(0,0,255,0.4)',
-            fill: false,
+            backgroundColor: "#0B84A5",
+            pointBackgroundColor: 'green',
+            borderColor: "#F6C85F",
           }
         ]
-      }
-    });
-
-    let options = {
-      // aspectRatio: 1,
-      // legend: false,
-      tooltips: false,
-
-      elements: {
-        point: {
-          borderWidth: function (context) {
-            return Math.min(Math.max(1, context.datasetIndex + 1), 8);
-          },
-          hoverBackgroundColor: 'transparent',
-          hoverBorderColor: function (context) {
-            return "red";
-          },
-          hoverBorderWidth: function (context) {
-            var value = context.dataset.data[context.dataIndex];
-            return Math.round(8 * value.v / 1000);
-          },
-          radius: function (context) {
-            var value = context.dataset.data[context.dataIndex];
-            var size = context.chart.width;
-            var base = Math.abs(value.v) / 1000;
-            return (size / 24) * base;
-          }
-        }
-      }
-    };
-
-    new Chart('bubble', {
-      type: 'bubble',
-      options: options,
-      data: {
-        datasets: [
-          {
-            backgroundColor: 'rgba(255,0,0,0.4)',
-            label: 'Name 1',
-            data: [{
-              x: 50,
-              y: 60,
-              v: 200
-            }, {
-              x: 50,
-              y: 80,
-              v: 700
-            }, {
-              x: 80,
-              y: 60,
-              v: 100
-            }, {
-              x: 60,
-              y: 60,
-              v: 500
-            }, {
-              x: 90,
-              y: 80,
-              v: 800
-            }]
-          }, {
-            backgroundColor: 'rgba(0,255,0,0.4)',
-            label: 'Name 2',
-            data: [{
-              x: 60,
-              y: 20,
-              v: 200
-            }, {
-              x: 55,
-              y: 70,
-              v: 800
-            }, {
-              x: 80,
-              y: 30,
-              v: 500
-            }, {
-              x: 70,
-              y: 40,
-              v: 800
-            }]
-          }]
-      }
-    })
-
-    this.doughnut = new Chart('doughnut', {
-      type: 'doughnut',
-      options: {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Doughnut Chart'
-        }, legend: {
-          position: 'top',
-        }, animation: {
-          animateScale: true,
-          animateRotate: true
-        }
       },
-      data: {
-        datasets: [{
-          data: [45, 10, 5, 25, 15],
-          backgroundColor: ["red", "orange", "yellow", "green", "blue"],
-          label: 'Dataset 1'
-        }],
-        labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue']
-      }
-    })
-
-    this.pie = new Chart('pie', {
-      type: 'pie',
       options: {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Pie Chart'
-        }, legend: {
-          position: 'top',
-        }, animation: {
-          animateScale: true,
-          animateRotate: true
-        }
-      },
-      data: {
-        datasets: [{
-          data: [45, 10, 5, 25, 15].reverse(),
-          backgroundColor: ["red", "orange", "yellow", "green", "blue"],
-          label: 'Dataset 1'
-        }],
-        labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue']
+        aspectRatio: 2.5
       }
+    });
+  }
+  getCoin() {
+    this.data.getCoin(this.param).subscribe((data: any) => {
+      this.coinData.push(data.data.coin)
+      console.log(this.coinData);
     })
-
   }
-
-  addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-      dataset.data.push(data);
-    });
-    chart.update();
-  }
-
-  removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-      dataset.data.pop();
-    });
-    chart.update();
-  }
-
-  updateChartData(chart, data, dataSetIndex) {
-    chart.data.datasets[dataSetIndex].data = data;
-    chart.update();
-  }
-
-
 }
