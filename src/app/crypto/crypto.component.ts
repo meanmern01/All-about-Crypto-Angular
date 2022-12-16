@@ -16,18 +16,16 @@ export class CryptoComponent implements OnInit {
   isLoading: boolean = false;
   constructor(private data: DataService, private route: ActivatedRoute) { }
   ngOnInit() {
-    this.isLoading = true
-    setTimeout(() => {
-      this.getValue('7d')
-      this.isLoading = false
+    this.getValue('7d')
 
-    }, 4990)
   }
   getValue(val?: any) {
+    this.isLoading = true;
     console.log("value", val);
     this.getCryptoData(val)
   }
   getCryptoData(time_Per: any) {
+    this.isLoading = true;
     this.param = this.route.snapshot.paramMap.get('id')
     this.data.getCoinHistory(this.param, time_Per).subscribe((data: any) => {
       console.log("param: ", data.data);
@@ -45,11 +43,14 @@ export class CryptoComponent implements OnInit {
       }
       setTimeout(() => {
         this.showChart(coinTimestamp, coinPrice)
+        this.isLoading = false;
       }, 1000)
+
     })
     this.getCoin()
   }
   showChart(coinTimestamp: any[], coinPrice: any[]) {
+    this.isLoading = true;
     const canvas = <HTMLCanvasElement>document.getElementById('MyChart');
     const ctx = canvas.getContext('2d');
     this.chart = new Chart(ctx, {
@@ -73,9 +74,11 @@ export class CryptoComponent implements OnInit {
     });
   }
   getCoin() {
+    this.isLoading = true;
     this.data.getCoin(this.param).subscribe((data: any) => {
       this.coinData.push(data.data.coin)
       console.log(this.coinData);
+      this.isLoading = false;
     })
   }
 }

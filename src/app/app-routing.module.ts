@@ -1,3 +1,4 @@
+import { ExchangeComponent } from './exchange/exchange.component';
 import { CryptoComponent } from './crypto/crypto.component';
 import { NewsComponent } from './news/news.component';
 import { AllcurruncyComponent } from './allcurruncy/allcurruncy.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'crypto/:id',
     component: CryptoComponent
+  },
+  {
+    path: 'exchange',
+    component: ExchangeComponent
   }
 ];
 

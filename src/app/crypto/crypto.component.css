@@ -2,24 +2,18 @@
   display: block;
   width: 100%;
   padding-top: 20px;
-  padding-left: 310px;
+  padding-left: 330px;
 }
-.contain {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-}
-.contain img {
-  transform: translatex(0) rotateX(-180deg);
-  animation: walk 5s linear infinite alternate;
-}
-@keyframes walk {
-  0% {
-    transform: translateX(400%);
+@media (min-width: 320px) {
+  .card-curruncy {
+    padding-left: 0;
   }
-  100% {
-    transform: translateX(-300%);
+  .page-content {
+    padding-left: 0;
+  }
+}
+@media (min-width: 768px) {
+  .page-content {
+    padding-left: 330px;
   }
 }

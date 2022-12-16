@@ -1,23 +1,25 @@
-<app-sidebar></app-sidebar>
 <div class="page-content">
-  <div class="container" *ngIf="!isLoading">
+  <div class="container-fluid" *ngIf="!isLoading">
     <div role="row" class="row align-items-center" style="margin-left: -28px; margin-right: -16px ;row-gap: 32px;">
-      <button (click)="detailCurruncy(coin.uuid)" class="card mt-5 shadow crypto-card border-0"
-        style="width:268px; margin-left: 30px; padding-left: 0; padding-right: 0;" *ngFor="let coin of crypto">
+      <button (click)="detailCurruncy(coin.uuid)" class="card mt-5 box-shadow crypto-card border-0 p-0 card-curruncy"
+        *ngFor="let coin of crypto">
         <div class="card-header crypto-card-header bg-dark text-light">
-          <span>{{coin.rank}}.{{coin.name}}</span>
+          <span class="fw-bolder">{{coin.rank}}.{{coin.name}}</span>
           <img src={{coin.iconUrl}} width="35" alt="">
         </div>
-        <div class="card-body p-3 bg-white">
-          <p class="text-start">price : {{coin.price | numberSuffix }}</p>
-          <p class="text-start">market cap : {{coin.marketCap | numberSuffix}}</p>
-          <p class="text-start">Daily change : {{coin.change}}%</p>
+        <div class="card-body w-100 p-4 bg-white text-transform-capatlize" style="color: #262642;">
+          <p class="text-start fw-bolder">price : {{coin.price | numberSuffix }}</p>
+          <p class="text-start fw-bolder">market cap : {{coin.marketCap | numberSuffix}}</p>
+          <p class="text-start fw-bolder">Daily change : {{coin.change}}%</p>
         </div>
       </button>
     </div>
   </div>
   <div class="contain" *ngIf="isLoading">
     <!-- <img src="assets/img/loading.gif" alt="Loading"> -->
-    <img src="http://a.top4top.net/p_1990j031.gif" alt="Loading">
+    <div class="dash uno"></div>
+    <div class="dash dos"></div>
+    <div class="dash tres"></div>
+    <div class="dash cuatro"></div>
   </div>
 </div>

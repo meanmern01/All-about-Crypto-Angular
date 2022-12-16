@@ -2,14 +2,16 @@
   <nav id=" sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
       <div class="sidebar-header">
-        <div class="user-pic">
-          <img class="img-responsive img-rounded" src="../assets/img/logo.png" alt="User picture">
-        </div>
-        <div class="user-info align-items-center">
-          <h2 class="heading text-light fw-bolder">Cryptoverse</h2>
-        </div>
+        <a routerLink="/">
+          <div class="user-pic">
+            <img class="img-responsive img-rounded" width="40" src="../assets/img/logo.png" alt="User picture">
+          </div>
+          <div class="user-info align-items-center">
+            <h2 class="heading text-light fs-2 fw-bolder">Cryptoverse</h2>
+          </div>
+        </a>
         <div class="toogle ms-5 d-inline-block">
-          <a (click)="change()"><i class="fa-solid fa-bars"></i></a>
+          <a class="toogle" (click)="change()"><i class="fa-solid fa-bars"></i></a>
         </div>
       </div>
 
@@ -18,27 +20,27 @@
       <!-- sidebar-search  -->
       <div class="sidebar-menu">
         <ul>
-          <li class="sidebar-dropdown">
-            <a routerLink="/">
+          <li class="sidebar-dropdown" [ngClass]="active === 'home' ? 'active' : ''">
+            <a routerLink="/" class="fw-bolder" (click)="active = 'home'">
               <i class="fa-solid fa-house"></i>
               <span>Home</span>
             </a>
           </li>
-          <li class="">
-            <a routerLink="/cryptoCurrencies">
+          <li class="sidebar-dropdown" [ngClass]="active === 'cryptoCurrency' ? 'active' : ''">
+            <a routerLink="/cryptoCurrencies" (click)="active = 'cryptoCurrency'" class="fw-bolder">
               <i class="fas fa-chart-line"></i>
               <span>Crypto Currencies</span>
             </a>
           </li>
-          <li class="sidebar-dropdown">
-            <a href="#">
+          <li class="sidebar-dropdown" [ngClass]="active === 'exchange' ? 'active' : ''">
+            <a routerLink="/exchange" class="fw-bolder" (click)="active = 'exchange'">
               <i class="fas fa-exchange-alt"></i>
               <span>Exchanges</span>
             </a>
 
           </li>
-          <li class="sidebar-dropdown">
-            <a routerLink="/news">
+          <li class="sidebar-dropdown" [ngClass]="active === 'news' ? 'active' : ''">
+            <a routerLink="/news" class="fw-bolder" (click)="active = 'news'">
               <i class="far fa-lightbulb"></i>
               <span>News</span>
             </a>
@@ -49,6 +51,6 @@
     </div>
   </nav>
 </div>
-<div *ngIf="!isOpend" class="toogle ms-5 d-inline-block">
+<div *ngIf="!isOpend" class="toogle ms-5 d-inline-block position-fixed top-0 end-0 me-4 mt-4">
   <button (click)="change()"><i class="fa-solid fa-bars"></i></button>
 </div>

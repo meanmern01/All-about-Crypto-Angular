@@ -1,37 +1,39 @@
 <!-- <main class="" [ngClass]="collapsed ? 'page-content' : 'padding-0'"> -->
-<main class="page-content" [ngStyle]="collapsed ? {'padding-left': '310'} : {'padding-left': '0'}">
+<main class="page-content">
 
   <div *ngIf=" !isLoading">
-    <h2 class="crypto">Global Crypto States</h2>
-    <div class="container crypto-history">
-      <div class="row">
+    <h2 class="crypto mb-4 margin-left">Global Crypto States</h2>
+    <div class="container-fluid crypto-history">
+      <div class="row justify-content-cyenter">
         <div class="col-6">
-          <h5 class="text-gray">Total Crypto Currencies</h5>
-          <h3 class="crypto-number">{{ cryptoHistory.totalCoins }}</h3>
-          <h5 class="text-gray">Total Market Cap</h5>
+          <h5 class="text-gray fw-normal crypto-title">Total Crypto Currencies</h5>
+          <h3 class="crypto-number">{{ cryptoHistory.totalCoins | number }}</h3>
+          <h5 class="text-gray fw-normal">Total Market Cap</h5>
           <h3 class="crypto-number">{{ cryptoHistory.totalMarketCap | numberSuffix : 1 }}</h3>
-          <h5 class="text-gray">Total Market Cap</h5>
+          <h5 class="text-gray fw-normal">Total Market Cap</h5>
           <h3 class="crypto-number">{{ cryptoHistory.totalMarkets | numberSuffix : 1 }}</h3>
         </div>
         <div class="col-6">
-          <h5 class="text-gray">Total Exchange</h5>
+          <h5 class="text-gray fw-normal">Total Exchange</h5>
           <h3 class="crypto-number">{{ cryptoHistory.totalExchanges }}</h3>
-          <h5 class="text-gray">Total 24h Volume</h5>
+          <h5 class="text-gray fw-normal">Total 24h Volume</h5>
           <h3 class="crypto-number">{{ cryptoHistory.total24hVolume | numberSuffix : 1 }}</h3>
         </div>
       </div>
     </div>
-    <div class="row align-items-center" style="margin-bottom: -35px;">
-      <h2 class="crypto top-ten w-50">Top 10 Cryptocurrencies in the world</h2>
-      <a routerLink="/cryptoCurrencies" class="w-50 pe-5 fs-5 text-decoration-none fw-bolder text-end">Show
+    <div class="row align-items-center" style="margin-top: 40px; margin-bottom: -35px;">
+      <h2 class="crypto top-ten margin-left w-50">Top 10 Cryptocurrencies in the world</h2>
+      <a routerLink="/cryptoCurrencies" class="w-50 link-more pe-5 text-decoration-none text-end">Show
         More</a>
     </div>
-    <div class="container">
-      <div role="row" class="row align-items-center" style="margin-left: -28px; margin-right: -16px ;row-gap: 32px;">
-        <div class="card mt-5 shadow crypto-card border-0"
-          style="width:268px; margin-left: 30px; padding-left: 0; padding-right: 0;" *ngFor="let coin of topCrypto">
-          <div class="card-header crypto-card-header bg-dark text-light">
-            <span>{{coin.rank}}.{{coin.name}}</span>
+    <div class="container-fluid">
+      <div role="row" class="row align-items-center crypto-card-res">
+        <a (click)="detailCurruncy(coin.uuid)"
+          class="card text-decoration-none text-dark mt-5 box-shadow crypto-card border-0"
+          style="width:268px; margin-left: 30px; padding-left: 0; padding-right: 0; cursor: pointer;"
+          *ngFor="let coin of topCrypto">
+          <div class="card-header crypto-card-header bg-black text-light">
+            <span>{{coin.rank}}. {{coin.name}}</span>
             <img src={{coin.iconUrl}} width="35" alt="">
           </div>
           <div class="card-body p-3 bg-white">
@@ -39,37 +41,45 @@
             <p>market cap : {{coin.marketCap | numberSuffix}}</p>
             <p>Daily change : {{coin.change}}%</p>
           </div>
-        </div>
+        </a>
       </div>
     </div>
     <div class="row align-items-center mt-3" style="margin-bottom: -35px;">
-      <h2 class="crypto top-ten w-50">Latest Crypto News</h2>
-      <a routerLink="/cryptoCurrencies" class="w-50 pe-5 fs-5 text-decoration-none fw-bolder text-end">Show More</a>
+      <h2 class="crypto top-ten margin-left w-50">Latest Crypto News</h2>
+      <a routerLink="/news" class="w-50 link-more pe-5 fs-5 text-decoration-none text-end">Show
+        More</a>
     </div>
-    <div class="container">
-      <div class="row align-items-center" style="margin-left: -28px; margin-right: -16px ;row-gap: 32px;">
-        <div class="card mt-5 p-3 shadow crypto-card border-0" style="width: 374px;margin-left: 30px;"
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-cyenter" style="margin-right: -16px ;row-gap: 32px;">
+        <a href="{{news.url}}"
+          class="text-decoration-none text-dark crypto-card-news-res  card mt-5 p-3 box-shadow crypto-card border-0"
           *ngFor="let news of cryptoNews">
           <div class="row">
             <div class="title-img row align-items-center">
               <h5 class="" style="width: 60%;">{{ news.name }}</h5>
-              <img src={{news?.image?.thumbnail?.contentUrl}} class="img-fluid"
+              <img *ngIf="news?.image" src={{news?.image?.thumbnail?.contentUrl}} class="img-fluid"
                 style="width: 120px; height: 100px; border-radius: 10px;" />
             </div>
             <p class="news-description">{{ news.description }}</p>
             <div class="provider-container w-100 justify-content-between">
               <div class="avtar-img d-inline-block w-75">
-                <img src={{news?.provider[0]?.image?.thumbnail?.contentUrl}} style="border-radius: 50%;" width="30">
+                <img
+                  [src]="news?.provider[0]?.image?.thumbnail?.contentUrl ||   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHt_o5EhnxmDxXfGyuEEg4x4rEXlPNck0hlF-m3mdVfuUrQ49hIWj7afTTLYpLxGFaUA8&usqp=CAU'"
+                  style="border-radius: 50%;" width="30">
                 <span>{{ news.provider[0].name }}</span>
               </div>
-              <span>{{ news.datePublished | date }}</span>
+              <span>{{ news.datePublished | dateAgo }}</span>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
   <div class="contain" *ngIf="isLoading">
-    <img src="http://a.top4top.net/p_1990j031.gif" alt="Loading">
+    <!-- <img src="assets/img/loading.gif" alt="Loading"> -->
+    <div class="dash uno"></div>
+    <div class="dash dos"></div>
+    <div class="dash tres"></div>
+    <div class="dash cuatro"></div>
   </div>
 </main>

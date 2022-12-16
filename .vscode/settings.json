@@ -1,1 +1,7 @@
-{}
+{
+  "angular.enable-strict-mode-prompt": false,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  }
+}

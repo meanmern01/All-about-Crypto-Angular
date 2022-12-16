@@ -14,7 +14,7 @@
         <option class="p-2" value="3y">3y</option>
         <option class="p-2" value="5y">5y</option>
       </select>
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <h2 class="d-inline-block">{{ coin.name }} Price Chart</h2>
           <div class="ms-auto row">
@@ -26,9 +26,9 @@
       <div class="chart-wrapper">
         <canvas id="MyChart"></canvas>
       </div>
-      <div class="container mt-5">
+      <div class="container-fluid mt-5">
         <div class="row">
-          <div class="col-6">
+          <div class="col-12 col-lg-6">
             <h2>{{ coin.name }} Value Statistics</h2>
             <span>An overview showing the statistics of {{coin.name}}, such as the base and quote currency, the rank,
               and
@@ -77,13 +77,13 @@
               <div [innerHTML]="coin.description"></div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-lg-6">
             <h2>Other Stats Info</h2>
             <span>An overview showing the statistics of {{ coin.name }}, such as the base and quote currency, the rank,
               and
               trading
               volume.</span>
-            <ul class="list-group list-group-flush mb-3">
+            <ul class="list-group list-group-flush bg-transparent mb-3">
               <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
                 <div class="me-auto">
                   <i class="fa fa-line-chart me-2"></i>Number Of Markets
@@ -98,7 +98,7 @@
               </li>
               <li class="list-group-item list-group-item-action d-flex align-items-center py-3">
                 <div class="me-auto">
-                  <i class="fa-solid fa-circle-info me-2"></i>Aprroved Supply
+                  <i class="fa-solid fa-circle-info me-2"></i>Approved Supply
                 </div>
                 <span *ngIf="coin.supply.confirmed == true"><i class="fa fa-check" aria-hidden="true"></i></span>
                 <span *ngIf="coin.supply.confirmed == false"><i class="fa fa-cross" aria-hidden="true"></i></span>
@@ -133,6 +133,9 @@
 
   </div>
   <div class="contain" *ngIf="isLoading">
-    <img src="http://a.top4top.net/p_1990j031.gif" alt="Loading">
+    <div class="dash uno"></div>
+    <div class="dash dos"></div>
+    <div class="dash tres"></div>
+    <div class="dash cuatro"></div>
   </div>
 </div>

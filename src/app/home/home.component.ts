@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService, private router: Router) { }
   cryptoHistory: any = '';
   topCrypto: any = '';
   cryptoNews: any = '';
@@ -16,24 +17,26 @@ export class HomeComponent implements OnInit {
   title = 'crypto-task';
   isCollpse: boolean = false;
   ngOnInit() {
-    setTimeout(() => {
-      this.getCryptoStates()
-      this.getCryptoNews()
-    }, 4995)
-    this.collapsed()
-    console.log("lofds")
+    this.isLoading = true;
+    this.getCryptoStates()
+    this.getCryptoNews()
   }
   getCryptoStates() {
+    this.isLoading = true;
     this.data.getCryptoStates().subscribe((data: any) => {
       this.cryptoHistory = data.data.stats
       this.topCrypto = data.data.coins.splice(0, 10)
+      this.isLoading = false
     })
   }
   getCryptoNews() {
+    this.isLoading = true
     this.data.getCryptoNews('crypto').subscribe((data: any) => {
 
       this.cryptoNews = data.value.splice(0, 6)
       console.log(this.cryptoNews);
+      this.isLoading = false
+
     })
   }
   collapsed() {
@@ -46,4 +49,9 @@ export class HomeComponent implements OnInit {
       return false
     }
   }
+  detailCurruncy(id: any) {
+    console.log(id);
+    this.router.navigate([`/crypto/${id}`])
+  }
+
 }

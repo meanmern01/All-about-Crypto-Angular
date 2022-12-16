@@ -14,6 +14,7 @@ export class AllcurruncyComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCrypto()
+    window.close()
   }
   getAllCrypto() {
     this.isLoading = true;
@@ -22,7 +23,7 @@ export class AllcurruncyComponent implements OnInit {
         this.crypto = crypto.data.coins;
       })
       this.isLoading = false;
-    }, 5000)
+    }, 2000)
   }
   detailCurruncy(id: any) {
     console.log(id);

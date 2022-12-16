@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,13 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   isOpend = true
-  constructor() { }
+  active: string;
+  constructor(private route: Router) { }
 
   ngOnInit(): void {
-
+    this.routing()
   }
   change() {
     this.isOpend = !this.isOpend
     localStorage.setItem('sidebar', JSON.stringify(this.isOpend))
+  }
+  routing() {
+    console.log(this.route.url)
   }
 }
